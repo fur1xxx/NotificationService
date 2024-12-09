@@ -1,3 +1,7 @@
+using NotificationService.Domain.IProvider;
+using NotificationService.Domain.Services.Interfaces;
+using NotificationService.Infrastructure.Providers;
+
 namespace NotificationService.API;
 
 public class Program
@@ -5,17 +9,22 @@ public class Program
     public static void Main(string[] args)
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-        // Add services to the container.
+        
+        builder.Services.AddScoped<INotificationService, Infrastructure.Services.NotificationService>();
+        
+        builder.Services.AddScoped<INotificationProvider, TwilioNotificationProvider>();
+        builder.Services.AddScoped<INotificationProvider, AmazonSnsNotificationProvider>();
+        builder.Services.AddScoped<INotificationProvider, VonageNotificationProvider>();
+        
+        builder.Services.AddControllers();
+        
         builder.Services.AddAuthorization();
-
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
         WebApplication app = builder.Build();
-
-        // Configure the HTTP request pipeline.
+        
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -25,6 +34,8 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
+        
+        app.MapControllers();
 
         app.Run();
     }

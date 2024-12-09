@@ -25,7 +25,7 @@ public class TwilioNotificationProvider : INotificationProvider
 
     public async Task<bool> SendAsync(Notification notification)
     {
-        if (SupportsChannel(notification.Channel))
+        if (!SupportsChannel(notification.Channel))
         {
             throw new NotSupportedException($"Channel {notification.Channel} is not supported by Twilio");
         }

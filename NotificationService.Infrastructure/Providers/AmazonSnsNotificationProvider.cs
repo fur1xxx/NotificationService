@@ -1,37 +1,37 @@
-﻿using NotificationService.Domain.Entities;
+﻿using NotificationService.Domain.Contracts.IProviders;
+using NotificationService.Domain.Entities;
 using NotificationService.Domain.Enums;
-using NotificationService.Domain.IProvider;
 
 namespace NotificationService.Infrastructure.Providers;
 
 public class AmazonSnsNotificationProvider : INotificationProvider
 {
-    private readonly List<NotificationChannel> _supportedChannels;
+    private readonly List<NotificationChannelType> _supportedChannels;
     
     public AmazonSnsNotificationProvider()
     {
-        _supportedChannels = new List<NotificationChannel>
+        _supportedChannels = new List<NotificationChannelType>
         {
-            NotificationChannel.Email,
-            NotificationChannel.SMS,
-            NotificationChannel.Push
+            NotificationChannelType.Email,
+            NotificationChannelType.SMS,
+            NotificationChannelType.Push
         };
     }
 
 
-    public bool SupportsChannel(NotificationChannel channel)
+    public bool SupportsChannel(NotificationChannelType channelType)
     {
-        return _supportedChannels.Contains(channel);
+        return _supportedChannels.Contains(channelType);
     }
 
     public async Task<bool> SendAsync(Notification notification)
     {
-        if (!SupportsChannel(notification.Channel))
+        if (!SupportsChannel(notification.ChannelType))
         {
-            throw new NotSupportedException($"Channel {notification.Channel} is not supported by Amazon SNS.");
+            throw new NotSupportedException($"Channel {notification.ChannelType} is not supported by Amazon SNS.");
         }
 
-        Console.WriteLine($"Sending {notification.Channel} via Amazon SNS to {notification.Recipient}: {notification.Message}");
+        Console.WriteLine($"Sending {notification.ChannelType} via Amazon SNS to {notification.Recipient}: {notification.Message}");
         await Task.Delay(100); 
         return true; 
     }

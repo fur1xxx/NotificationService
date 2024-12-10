@@ -1,37 +1,38 @@
-﻿using NotificationService.Domain.Entities;
-using NotificationService.Domain.IProvider;
+﻿using NotificationService.Domain.Contracts.INotificationChannels;
+using NotificationService.Domain.Contracts.IProviders;
+using NotificationService.Domain.Entities;
+using NotificationService.Domain.IManagers;
 using NotificationService.Domain.Services.Interfaces;
 
 namespace NotificationService.Infrastructure.Services;
 
 public class NotificationService : INotificationService
 {
-    private readonly IEnumerable<INotificationProvider> _notificationProviders;
+    private readonly INotificationChannelManager _notificationChannelManager;
     
-    public NotificationService(IEnumerable<INotificationProvider> notificationProviders)
+    public NotificationService(INotificationChannelManager notificationChannelManager)
     {
-        _notificationProviders = notificationProviders;
+        _notificationChannelManager = notificationChannelManager;
     }
     
     public async Task<bool> SendNotificationAsync(Notification notification)
     {
-        foreach (INotificationProvider provider in _notificationProviders.Where(p => p.SupportsChannel(notification.Channel)))
+        try
         {
-            try
+            INotificationChannel notificationChannel = _notificationChannelManager.GetNotificationChannel(notification.ChannelType);
+            
+            if(await notificationChannel.SendNotificationAsync(notification))
             {
-                if (await provider.SendAsync(notification))
-                {
-                    Console.WriteLine($"Notification sent via {provider.GetType().Name}");
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to send notification via {provider.GetType().Name}: {ex.Message}");
+                Console.WriteLine($"Notification sent via {notificationChannel.GetType().Name}");
+                return true;
             }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error sending notification: {ex.Message}");
+        }
         
-        Console.WriteLine("All providers failed. Notification will be queued for retry.");
+        Console.WriteLine("Notification failed to send");
         return false;
     }
 }

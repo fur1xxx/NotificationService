@@ -1,5 +1,9 @@
-using NotificationService.Domain.IProvider;
+using NotificationService.Domain.Contracts.INotificationChannels;
+using NotificationService.Domain.Contracts.IProviders;
+using NotificationService.Domain.IManagers;
 using NotificationService.Domain.Services.Interfaces;
+using NotificationService.Infrastructure.Managers;
+using NotificationService.Infrastructure.NotificationChannels;
 using NotificationService.Infrastructure.Providers;
 
 namespace NotificationService.API;
@@ -15,6 +19,13 @@ public class Program
         builder.Services.AddScoped<INotificationProvider, TwilioNotificationProvider>();
         builder.Services.AddScoped<INotificationProvider, AmazonSnsNotificationProvider>();
         builder.Services.AddScoped<INotificationProvider, VonageNotificationProvider>();
+
+        builder.Services.AddScoped<INotificationChannel, EmailNotificationChannel>();
+        builder.Services.AddScoped<INotificationChannel, SmsNotificationChannel>();
+        builder.Services.AddScoped<INotificationChannel, PushNotificationChannel>();
+
+        builder.Services.AddScoped<INotificationProviderManager, NotificationProviderManager>();
+        builder.Services.AddScoped<INotificationChannelManager, NotificationChannelManager>();
         
         builder.Services.AddControllers();
         

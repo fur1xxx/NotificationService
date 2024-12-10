@@ -8,7 +8,6 @@ public class Notification
     public string Title { get; set; }
     public string Recipient { get; set; }
     public string Message { get; set; }
-    public NotificationChannel Channel { get; set; }
-    public NotificationPriority Priority { get; set; }
+    public NotificationChannelType ChannelType { get; set; }
     public DateTime CreatedAt { get; set; }
 }

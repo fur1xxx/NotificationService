@@ -1,15 +1,16 @@
-﻿using NotificationService.Domain.Contracts.INotificationChannels;
-using NotificationService.Domain.Contracts.IProviders;
-using NotificationService.Domain.Entities;
+﻿using Microsoft.Extensions.Options;
 using NotificationService.Domain.Enums;
 using NotificationService.Domain.IManagers;
+using NotificationService.Infrastructure.Configurations;
 
 namespace NotificationService.Infrastructure.NotificationChannels;
 
 public class EmailNotificationChannel : NotificationChannel
 {
-    public EmailNotificationChannel(INotificationProviderManager providerManager)
-        : base(providerManager) { }
-
-    public override NotificationChannelType ChannelType => NotificationChannelType.Email;
+    public EmailNotificationChannel(
+        INotificationProviderManager providerManager,
+        IOptions<EmailNotificationChannelConfiguration> configuration)
+        : base(providerManager, configuration)
+    {
+    }
 }

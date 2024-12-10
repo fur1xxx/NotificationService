@@ -2,6 +2,7 @@ using NotificationService.Domain.Contracts.INotificationChannels;
 using NotificationService.Domain.Contracts.IProviders;
 using NotificationService.Domain.IManagers;
 using NotificationService.Domain.Services.Interfaces;
+using NotificationService.Infrastructure.Configurations;
 using NotificationService.Infrastructure.Managers;
 using NotificationService.Infrastructure.NotificationChannels;
 using NotificationService.Infrastructure.Providers;
@@ -26,6 +27,24 @@ public class Program
 
         builder.Services.AddScoped<INotificationProviderManager, NotificationProviderManager>();
         builder.Services.AddScoped<INotificationChannelManager, NotificationChannelManager>();
+        
+        builder.Services.Configure<EmailNotificationChannelConfiguration>(
+            builder.Configuration.GetSection("NotificationSettings:Channels:EmailChannel"));
+
+        builder.Services.Configure<SmsNotificationChannelConfiguration>(
+            builder.Configuration.GetSection("NotificationSettings:Channels:SmsChannel"));
+        
+        builder.Services.Configure<PushNotificationChannelConfiguration>(
+            builder.Configuration.GetSection("NotificationSettings:Channels:PushChannel"));
+        
+        builder.Services.Configure<AmazonSnsProviderConfiguration>(
+            builder.Configuration.GetSection("NotificationSettings:Providers:AmazonSns"));
+
+        builder.Services.Configure<TwilioProviderConfiguration>(
+            builder.Configuration.GetSection("NotificationSettings:Providers:Twilio"));
+
+        builder.Services.Configure<VonageProviderConfiguration>(
+            builder.Configuration.GetSection("NotificationSettings:Providers:Vonage"));
         
         builder.Services.AddControllers();
         

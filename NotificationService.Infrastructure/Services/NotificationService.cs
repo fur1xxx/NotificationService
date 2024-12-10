@@ -1,5 +1,4 @@
 ﻿using NotificationService.Domain.Contracts.INotificationChannels;
-using NotificationService.Domain.Contracts.IProviders;
 using NotificationService.Domain.Entities;
 using NotificationService.Domain.IManagers;
 using NotificationService.Domain.Services.Interfaces;

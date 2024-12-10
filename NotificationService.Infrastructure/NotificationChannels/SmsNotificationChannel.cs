@@ -1,15 +1,16 @@
-﻿using NotificationService.Domain.Contracts.INotificationChannels;
-using NotificationService.Domain.Contracts.IProviders;
-using NotificationService.Domain.Entities;
+﻿using Microsoft.Extensions.Options;
 using NotificationService.Domain.Enums;
 using NotificationService.Domain.IManagers;
+using NotificationService.Infrastructure.Configurations;
 
 namespace NotificationService.Infrastructure.NotificationChannels;
 
 public class SmsNotificationChannel : NotificationChannel
 {
-    public SmsNotificationChannel(INotificationProviderManager providerManager)
-        : base(providerManager) { }
-
-    public override NotificationChannelType ChannelType => NotificationChannelType.SMS;
+    public SmsNotificationChannel(
+        INotificationProviderManager providerManager,
+        IOptions<SmsNotificationChannelConfiguration> configuration)
+        : base(providerManager, configuration)
+    {
+    }
 }

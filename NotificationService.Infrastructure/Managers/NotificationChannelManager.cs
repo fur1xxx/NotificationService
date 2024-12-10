@@ -21,6 +21,11 @@ public class NotificationChannelManager : INotificationChannelManager
         {
             throw new InvalidOperationException($"No notification channel found for type {channelType}");
         }
+        
+        if (!channel.IsEnabled)
+        {
+            throw new InvalidOperationException($"Notification channel {channelType} is disabled");
+        }
 
         return channel;
     }

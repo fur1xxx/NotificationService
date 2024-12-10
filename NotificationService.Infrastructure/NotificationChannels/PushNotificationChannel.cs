@@ -1,15 +1,15 @@
-﻿using NotificationService.Domain.Contracts.INotificationChannels;
-using NotificationService.Domain.Contracts.IProviders;
-using NotificationService.Domain.Entities;
-using NotificationService.Domain.Enums;
+﻿using Microsoft.Extensions.Options;
 using NotificationService.Domain.IManagers;
+using NotificationService.Infrastructure.Configurations;
 
 namespace NotificationService.Infrastructure.NotificationChannels;
 
 public class PushNotificationChannel : NotificationChannel
 {
-    public PushNotificationChannel(INotificationProviderManager providerManager)
-        : base(providerManager) { }
-
-    public override NotificationChannelType ChannelType => NotificationChannelType.Push;
+    public PushNotificationChannel(
+        INotificationProviderManager providerManager,
+        IOptions<PushNotificationChannelConfiguration> configuration)
+        : base(providerManager, configuration)
+    {
+    }
 }

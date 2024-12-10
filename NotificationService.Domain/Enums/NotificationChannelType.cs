@@ -2,7 +2,7 @@
 
 public enum NotificationChannelType
 {
-    SMS,
     Email,
+    SMS,
     Push
 }

@@ -2,6 +2,7 @@
 
 namespace NotificationService.Infrastructure.Configurations;
 
+// Properties which all channels will have
 public class NotificationChannelConfiguration
 {
     public NotificationChannelType ChannelType { get; set; }

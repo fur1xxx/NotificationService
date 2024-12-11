@@ -1,6 +1,6 @@
 ﻿using NotificationService.Domain.Enums;
 
-namespace NotificationService.Infrastructure.Configurations;
+namespace NotificationService.Infrastructure.Configurations.Providers;
 
 // Properties which all providers will have
 public class NotificationProviderConfiguration

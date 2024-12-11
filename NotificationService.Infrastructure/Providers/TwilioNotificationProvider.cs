@@ -3,6 +3,7 @@ using NotificationService.Domain.Contracts.IProviders;
 using NotificationService.Domain.Entities;
 using NotificationService.Domain.Enums;
 using NotificationService.Infrastructure.Configurations;
+using NotificationService.Infrastructure.Configurations.Providers;
 
 namespace NotificationService.Infrastructure.Providers;
 

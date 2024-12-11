@@ -3,19 +3,23 @@ using NotificationService.Domain.Contracts.INotificationChannels;
 using NotificationService.Domain.Contracts.IProviders;
 using NotificationService.Domain.Entities;
 using NotificationService.Domain.Enums;
-using NotificationService.Domain.IManagers;
+using NotificationService.Domain.IRetryQueue;
+using NotificationService.Domain.Managers.Interfaces;
 using NotificationService.Infrastructure.Configurations;
+using NotificationService.Infrastructure.Configurations.Channels;
 
 namespace NotificationService.Infrastructure.NotificationChannels;
 
 public abstract class NotificationChannel : INotificationChannel
 {
     private readonly INotificationProviderManager _providerManager;
+    private readonly INotificationRetryQueue _retryQueue;
     protected readonly NotificationChannelConfiguration _configuration;
 
-    protected NotificationChannel(INotificationProviderManager providerManager, IOptions<NotificationChannelConfiguration> configuration)
+    protected NotificationChannel(INotificationProviderManager providerManager, IOptions<NotificationChannelConfiguration> configuration, INotificationRetryQueue retryQueue)
     {
         _providerManager = providerManager;
+        _retryQueue = retryQueue;
         _configuration = configuration.Value;
     }
 
@@ -44,6 +48,8 @@ public abstract class NotificationChannel : INotificationChannel
         }
 
         Console.WriteLine($"All providers for {ChannelType} failed. Notification will be queued for retry.");
+        _retryQueue.AddToQueue(notification);
+        
         return false;
     }
 }

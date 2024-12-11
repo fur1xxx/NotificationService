@@ -1,4 +1,4 @@
-﻿namespace NotificationService.Infrastructure.Configurations;
+﻿namespace NotificationService.Infrastructure.Configurations.Channels;
 
 public class PushNotificationChannelConfiguration : NotificationChannelConfiguration
 {

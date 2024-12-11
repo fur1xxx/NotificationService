@@ -1,6 +1,6 @@
 ﻿using NotificationService.Domain.Enums;
 
-namespace NotificationService.Infrastructure.Configurations;
+namespace NotificationService.Infrastructure.Configurations.Channels;
 
 // Properties which all channels will have
 public class NotificationChannelConfiguration

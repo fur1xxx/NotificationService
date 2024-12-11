@@ -1,4 +1,4 @@
-﻿namespace NotificationService.Infrastructure.Configurations;
+﻿namespace NotificationService.Infrastructure.Configurations.Providers;
 
 public class TwilioProviderConfiguration : NotificationProviderConfiguration
 {

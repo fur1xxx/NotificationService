@@ -1,8 +1,8 @@
 ﻿using NotificationService.Domain.Contracts.INotificationChannels;
 using NotificationService.Domain.Enums;
-using NotificationService.Domain.IManagers;
+using NotificationService.Domain.Managers.Interfaces;
 
-namespace NotificationService.Infrastructure.Managers;
+namespace NotificationService.Domain.Managers;
 
 public class NotificationChannelManager : INotificationChannelManager
 {

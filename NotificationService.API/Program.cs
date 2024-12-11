@@ -1,10 +1,8 @@
 using NotificationService.Domain.Contracts.INotificationChannels;
 using NotificationService.Domain.Contracts.IProviders;
-using NotificationService.Domain.IManagers;
 using NotificationService.Domain.Services.Interfaces;
 using NotificationService.Infrastructure.Configurations;
 using NotificationService.Infrastructure.Extensions;
-using NotificationService.Infrastructure.Managers;
 using NotificationService.Infrastructure.NotificationChannels;
 using NotificationService.Infrastructure.Providers;
 

@@ -1,6 +1,6 @@
 ﻿using NotificationService.Domain.Contracts.INotificationChannels;
 using NotificationService.Domain.Entities;
-using NotificationService.Domain.IManagers;
+using NotificationService.Domain.Managers.Interfaces;
 using NotificationService.Domain.Services.Interfaces;
 
 namespace NotificationService.Infrastructure.Services;

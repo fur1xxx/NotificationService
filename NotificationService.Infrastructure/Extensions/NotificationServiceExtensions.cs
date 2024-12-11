@@ -2,12 +2,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using NotificationService.Domain.Contracts.INotificationChannels;
 using NotificationService.Domain.Contracts.IProviders;
-using NotificationService.Domain.IManagers;
+using NotificationService.Domain.IRetryQueue;
+using NotificationService.Domain.Managers;
+using NotificationService.Domain.Managers.Interfaces;
 using NotificationService.Domain.Services.Interfaces;
 using NotificationService.Infrastructure.Configurations;
-using NotificationService.Infrastructure.Managers;
+using NotificationService.Infrastructure.Configurations.Channels;
+using NotificationService.Infrastructure.Configurations.Providers;
 using NotificationService.Infrastructure.NotificationChannels;
 using NotificationService.Infrastructure.Providers;
+using NotificationService.Infrastructure.RetryQueue;
 
 namespace NotificationService.Infrastructure.Extensions;
 
@@ -21,12 +25,16 @@ public static class NotificationServiceExtensions
             services.AddScoped<INotificationProvider, AmazonSnsNotificationProvider>();
             services.AddScoped<INotificationProvider, VonageNotificationProvider>();
             
+            services.AddScoped<INotificationProviderManager, NotificationProviderManager>();
+            services.AddScoped<INotificationChannelManager, NotificationChannelManager>();
+            
             services.AddScoped<INotificationChannel, EmailNotificationChannel>();
             services.AddScoped<INotificationChannel, SmsNotificationChannel>();
             services.AddScoped<INotificationChannel, PushNotificationChannel>();
-            
-            services.AddScoped<INotificationProviderManager, NotificationProviderManager>();
-            services.AddScoped<INotificationChannelManager, NotificationChannelManager>();
+
+            services.AddSingleton<INotificationRetryQueue, NotificationRetryQueue>();
+
+            services.AddHostedService<NotificationRetryProcessor>();
             
             services.Configure<EmailNotificationChannelConfiguration>(
                 configuration.GetSection("NotificationSettings:Channels:EmailChannel"));

@@ -6,6 +6,7 @@ namespace NotificationService.Infrastructure.Configurations.Providers;
 public class NotificationProviderConfiguration
 {
     public string ProviderName { get; set; }
+    public bool IsAvailable { get; set; }
     public int Priority { get; set; }
     public IEnumerable<NotificationChannelType> SupportedChannels { get; set; }
 }

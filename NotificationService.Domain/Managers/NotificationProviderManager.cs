@@ -16,7 +16,7 @@ public class NotificationProviderManager : INotificationProviderManager
     public IEnumerable<INotificationProvider> GetProvidersForChannel(NotificationChannelType channelType)
     {
         return _providers
-            .Where(p => p.SupportsChannel(channelType))
+            .Where(p => p.SupportsChannel(channelType) && p.IsAvailable)
             .OrderBy(p => p.Priority);
     }
 }

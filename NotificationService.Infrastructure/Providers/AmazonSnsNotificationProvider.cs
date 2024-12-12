@@ -17,6 +17,8 @@ public class AmazonSnsNotificationProvider : INotificationProvider
     }
     
     public int Priority => _configuration.Priority;
+    
+    public bool IsAvailable => _configuration.IsAvailable;
 
     public bool SupportsChannel(NotificationChannelType channelType)
     {
